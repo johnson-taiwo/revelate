@@ -1,0 +1,485 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex, nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Revelate Concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Batch 2 palette */
+  --onyx:#01010D;      /* primary: the stage   */
+  --indigo:#6331FB;    /* primary: the brand   */
+  --mint:#88F9C0;      /* highlight, once per screen */
+  /* derived */
+  --onyx-2:#08081E;
+  --indigo-soft:#8B6BFF;
+  --lilac:#C8BEFF;
+  --muted:#9C9CBE;
+  --line:rgba(200,190,255,.14);
+  --font:"Inter Tight", system-ui, -apple-system, "SF Pro Display", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, monospace;
+}
+*{box-sizing:border-box}
+html{background:var(--onyx)}
+body{margin:0;font:400 18px/1.5 var(--font);color:#F4F2FF;background:var(--onyx);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+.mega{font-weight:700;font-size:clamp(60px,11.5vw,176px);line-height:.92;letter-spacing:-.055em;margin:0}
+.big{font-weight:700;font-size:clamp(42px,7vw,108px);line-height:.98;letter-spacing:-.045em;margin:0}
+.title{font-weight:650;font-size:clamp(30px,4.2vw,56px);line-height:1.04;letter-spacing:-.03em;margin:0}
+.sub{font-weight:500;font-size:clamp(19px,2vw,26px);line-height:1.3;letter-spacing:-.012em;color:var(--muted);margin:0}
+.kicker{font-weight:600;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--lilac)}
+.mint{color:var(--mint)}
+.mono{font-family:var(--mono)}
+
+nav{position:fixed;inset:0 0 auto 0;z-index:100;height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(16px,4vw,48px);
+  background:rgba(1,1,13,.55);-webkit-backdrop-filter:blur(20px) saturate(180%);backdrop-filter:blur(20px) saturate(180%);transition:background .4s,color .4s}
+nav.on-indigo{background:rgba(99,49,251,.55)}
+.brand{font-weight:700;letter-spacing:-.02em;font-size:18px;display:flex;align-items:center;gap:9px}
+.brand svg{display:block}
+nav .links{display:flex;gap:28px;font-size:13px;font-weight:500;opacity:.85}
+nav .cta{font-size:13px;font-weight:600;padding:7px 14px;border-radius:999px;background:var(--mint);color:var(--onyx)}
+@media(max-width:760px){nav .links{display:none}}
+
+.btn{display:inline-flex;align-items:center;gap:8px;padding:16px 26px;border-radius:999px;font:600 17px var(--font);letter-spacing:-.01em;cursor:pointer;border:0;transition:transform .12s ease-out, box-shadow .2s}
+.btn:active{transform:scale(.97)}
+.btn-mint{background:var(--mint);color:var(--onyx);box-shadow:0 12px 40px -14px rgba(136,249,192,.7)}
+.btn-link{color:#F4F2FF;padding:16px 8px}
+.btn-link::after{content:"›";font-size:22px;line-height:0;margin-left:2px;transition:transform .2s}
+.btn-link:hover::after{transform:translateX(3px)}
+
+.scene{position:relative}
+.stage{position:sticky;top:0;height:100svh;overflow:hidden;display:grid;place-items:center}
+.kb{position:absolute;inset:0;overflow:hidden}
+.kb img{width:100%;height:100%;object-fit:cover;display:block;animation:drift 26s ease-in-out infinite alternate;will-change:transform}
+@keyframes drift{from{transform:scale(1.04)}to{transform:scale(1.14) translate3d(-1.5%,-1%,0)}}
+
+/* 1. HERO: raw data drifting, linking up */
+.hero{position:relative;min-height:100svh;display:grid;place-items:center;text-align:center;overflow:hidden;padding:120px 20px 90px}
+#field{position:absolute;inset:0;width:100%;height:100%}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(50% 45% at 50% 50%,rgba(99,49,251,.35),transparent 70%),linear-gradient(180deg,transparent 70%,var(--onyx));pointer-events:none}
+.hero .inner{position:relative;z-index:2}
+.hero .sub{margin-top:22px}
+.hero .actions{margin-top:36px;display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.scroll-hint{position:absolute;bottom:28px;left:50%;transform:translateX(-50%);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);z-index:2}
+
+/* 2. THE REQUESTS (photo + floating asks) */
+#asks{height:340vh}
+.frame{position:absolute;left:50%;top:50%;width:var(--fw,56vw);height:var(--fh,54vh);transform:translate(-50%,-50%);border-radius:var(--fr,28px);overflow:hidden;box-shadow:0 40px 120px -40px rgba(99,49,251,.6)}
+.frame .kb img{filter:grayscale(.6) contrast(1.05)}
+.frame .tint{position:absolute;inset:0;background:linear-gradient(180deg,rgba(99,49,251,.35),rgba(1,1,13,.85));mix-blend-mode:normal;opacity:var(--tint,.4)}
+.asks-head{position:absolute;top:11vh;left:0;right:0;text-align:center;z-index:4;opacity:var(--head,1)}
+.bubble{position:absolute;z-index:5;max-width:min(420px,78vw);padding:16px 20px;border-radius:20px 20px 20px 6px;
+  background:rgba(20,16,48,.55);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(200,190,255,.22);box-shadow:0 20px 50px -20px rgba(0,0,0,.6);
+  font-size:17px;line-height:1.35;color:#fff;opacity:0;transform:translateY(18px) scale(.94);filter:blur(6px);
+  transition:opacity .5s ease, transform .7s cubic-bezier(.2,.9,.25,1.2), filter .5s ease}
+.bubble.on{opacity:1;transform:none;filter:none}
+.bubble small{display:block;font:500 12px var(--mono);color:var(--lilac);margin-bottom:6px;letter-spacing:.02em}
+.b1{left:8vw;top:26vh}.b2{right:8vw;top:36vh}.b3{left:12vw;top:56vh}.b4{right:12vw;top:66vh}
+.asks-punch{position:absolute;left:0;right:0;bottom:9vh;text-align:center;z-index:6;padding:0 20px;opacity:0;transform:translateY(20px);transition:opacity .6s ease, transform .8s cubic-bezier(.2,.8,.2,1)}
+.asks-punch.on{opacity:1;transform:none}
+@media(max-width:760px){.b1,.b3{left:6vw}.b2,.b4{right:6vw}}
+
+/* 3. THE COMBINATIONS */
+#combo{height:300vh}
+#combo .stage{text-align:center;padding:0 5vw}
+.formula{font-weight:700;font-size:clamp(28px,4.6vw,66px);line-height:1.15;letter-spacing:-.035em;max-width:1200px}
+.formula span{display:inline-block;opacity:.12;transform:translateY(16px);transition:opacity .5s ease, transform .7s cubic-bezier(.2,.8,.2,1)}
+.formula span.on{opacity:1;transform:none}
+.formula i{font-style:normal;color:var(--mint);font-weight:500;margin:0 .18em}
+.who{margin-top:46px;opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .8s cubic-bezier(.2,.8,.2,1)}
+.who.on{opacity:1;transform:none}
+.tools{margin-top:22px;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.tools span{font:500 14px var(--mono);color:var(--muted);padding:8px 12px;border:1px solid var(--line);border-radius:10px;animation:jitter 2.8s ease-in-out infinite}
+.tools span:nth-child(2){animation-delay:.4s}.tools span:nth-child(3){animation-delay:.8s}.tools span:nth-child(4){animation-delay:1.2s}.tools span:nth-child(5){animation-delay:1.6s}
+@keyframes jitter{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* 4. WHAT IT IS (indigo stage) */
+#what{height:300vh;background:var(--indigo)}
+#what .stage{text-align:left}
+.what-wrap{width:min(1100px,90vw)}
+#what .kicker{color:#E3DBFF}
+.lines{margin-top:26px}
+.lines .big{color:#fff;opacity:.2;transform:translateY(24px);transition:opacity .6s ease, transform .8s cubic-bezier(.2,.8,.2,1)}
+.lines .big.on{opacity:1;transform:none}
+.lines .big.past{opacity:.38;transform:none}
+.what-foot{margin-top:34px;color:#E3DBFF}
+
+/* 5. PIPELINE REEL */
+#pipe{height:460vh}
+#pipe .stage{display:block}
+.reel-head{position:absolute;top:96px;left:clamp(20px,6vw,80px);right:20px;z-index:2}
+.reel{position:absolute;top:0;bottom:0;left:0;display:flex;align-items:center;gap:6vw;padding:0 12vw 0 clamp(20px,6vw,80px);will-change:transform}
+.st{flex:none;width:min(60vw,740px)}
+.st .n{font:500 14px var(--mono);color:var(--lilac)}
+.st .big{margin:14px 0 18px}
+.st .eg{display:inline-block;margin-top:20px;font:500 14px var(--mono);color:var(--muted);padding:8px 12px;border:1px solid var(--line);border-radius:10px}
+.st.last .big{color:var(--mint)}
+.reel-bar{position:absolute;left:clamp(20px,6vw,80px);right:clamp(20px,6vw,80px);bottom:60px;height:2px;background:var(--line)}
+.reel-bar span{display:block;height:100%;width:0;background:var(--indigo)}
+@media(max-width:700px){.st{width:82vw}}
+
+/* 6. DELIVERY MAP */
+#map{height:260vh}
+#map .stage{text-align:center}
+.map-svg{position:absolute;inset:0;width:100%;height:100%}
+.map-svg .route{fill:none;stroke:rgba(139,107,255,.55);stroke-width:1.5;stroke-dasharray:var(--len,600);stroke-dashoffset:calc(var(--len,600) * (1 - var(--draw,0)))}
+.map-svg .packet{fill:var(--mint);opacity:var(--draw,0);filter:drop-shadow(0 0 6px rgba(136,249,192,.9))}
+.hub{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:180px;height:180px;border-radius:50%;display:grid;place-items:center;text-align:center;
+  background:radial-gradient(circle,rgba(99,49,251,.9),rgba(99,49,251,.35) 60%,transparent 72%);font-weight:700;font-size:17px;letter-spacing:-.01em;line-height:1.2;z-index:2}
+.hub::after{content:"";position:absolute;inset:18px;border-radius:50%;border:1px solid rgba(255,255,255,.35);animation:breathe 3s ease-in-out infinite}
+@keyframes breathe{50%{transform:scale(1.08);opacity:.4}}
+.dest{position:absolute;transform:translate(-50%,-50%);font:500 15px var(--mono);padding:10px 14px;border-radius:12px;background:rgba(8,8,30,.8);border:1px solid var(--line);color:#fff;z-index:2;opacity:var(--draw,0);white-space:nowrap}
+.map-copy{position:absolute;left:0;right:0;bottom:8vh;z-index:3;padding:0 20px;opacity:var(--mcopy,0)}
+.map-head{position:absolute;left:0;right:0;top:12vh;z-index:3;padding:0 20px}
+
+/* 7. MINUTES (photo iris) */
+#minutes{height:240vh}
+.iris{position:absolute;inset:0;clip-path:circle(var(--iris,5%) at 50% 50%)}
+.iris::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 50%,rgba(1,1,13,.35),rgba(1,1,13,.85))}
+.ring{position:absolute;left:50%;top:50%;width:10vmin;height:10vmin;transform:translate(-50%,-50%);border-radius:50%;border:2px solid var(--mint);opacity:var(--ring,1);box-shadow:0 0 40px rgba(136,249,192,.5)}
+.min-copy{position:relative;z-index:3;text-align:center;opacity:var(--icopy,0);transform:translateY(calc((1 - var(--icopy,0)) * 24px))}
+.min-copy .sub{color:#E8E4FF;margin-top:16px}
+
+/* 8. BUILD A DATA PRODUCT */
+.build{min-height:100svh;padding:120px clamp(20px,6vw,80px);display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;max-width:1280px;margin:0 auto}
+@media(max-width:960px){.build{grid-template-columns:1fr}}
+.build .title{margin:12px 0 30px}
+.group{margin-bottom:22px}
+.group label{display:block;font:600 12px var(--font);letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:rgba(200,190,255,.04);color:#F4F2FF;padding:10px 14px;border-radius:999px;font:500 15px var(--font);cursor:pointer;transition:background .15s, border-color .15s, transform .1s ease-out}
+.chip:active{transform:scale(.96)}
+.chip.on{background:var(--indigo);border-color:var(--indigo)}
+.card-wrap{perspective:1200px}
+.card{position:relative;border-radius:28px;padding:30px;background:linear-gradient(160deg,rgba(99,49,251,.28),rgba(8,8,30,.9) 55%);border:1px solid rgba(200,190,255,.22);
+  box-shadow:0 40px 100px -40px rgba(99,49,251,.7);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) scale(var(--s,1));transition:transform .25s ease-out;will-change:transform}
+.card .tag{font:500 12px var(--mono);color:var(--lilac)}
+.card h3{margin:10px 0 18px;font-weight:700;font-size:30px;letter-spacing:-.03em;line-height:1.1}
+.rows{display:grid;gap:10px;font-size:15px}
+.rows div{display:flex;justify-content:space-between;gap:16px;padding:12px 14px;border-radius:12px;background:rgba(255,255,255,.04)}
+.rows span{color:var(--muted)}
+.rows b{font-weight:600;text-align:right}
+.grant{margin-top:22px;display:flex;align-items:center;gap:14px}
+.status{font:500 14px var(--mono);color:var(--muted)}
+.status.ok{color:var(--mint)}
+.spinner{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);border-top-color:var(--mint);animation:spin .8s linear infinite;display:none}
+.spinner.on{display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 9. CLOSE */
+.close{position:relative;min-height:100svh;display:grid;place-items:center;text-align:center;padding:120px 20px;overflow:hidden}
+.close .kb img{animation-duration:42s;filter:saturate(.8)}
+.close .kb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(1,1,13,.94),rgba(40,18,120,.78) 50%,rgba(1,1,13,.96))}
+.close > div:last-child{position:relative;z-index:2}
+.close .sub{margin:20px auto 34px;max-width:640px;color:#D9D3FF}
+footer{padding:28px clamp(16px,4vw,48px);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:12px;color:var(--muted);border-top:1px solid var(--line)}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition-duration:.01ms!important}
+  #asks,#combo,#what,#pipe,#map,#minutes{height:auto}
+  .stage{position:relative;height:auto;min-height:100svh;padding:120px 0}
+  .reel{position:relative;flex-direction:column;align-items:flex-start;transform:none!important;padding-top:140px}
+  .frame{width:100vw;height:100%;border-radius:0}.iris{clip-path:none}
+  .bubble,.asks-punch,.formula span,.who,.lines .big{opacity:1;transform:none;filter:none}
+  .bubble{position:relative;inset:auto;margin:10px auto}
+  .min-copy,.map-copy{opacity:1;transform:none}.ring{display:none}
+}
+@media (prefers-reduced-transparency: reduce){ nav{background:var(--onyx)} .bubble{background:#141030} }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="brand" href="#"><svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="1" y="1" width="9" height="9" rx="2.5" fill="#6331FB"/><rect x="12" y="1" width="9" height="9" rx="2.5" fill="#6331FB" opacity=".55"/><rect x="1" y="12" width="9" height="9" rx="2.5" fill="#6331FB" opacity=".55"/><rect x="12" y="12" width="9" height="9" rx="2.5" fill="#88F9C0"/></svg>Revelate</a>
+  <div class="links"><a href="#asks">The problem</a><a href="#pipe">How it works</a><a href="#map">Delivery</a><a href="#build">Try it</a></div>
+  <a class="cta" href="#build">Book a demo</a>
+</nav>
+
+<!-- 1 -->
+<header class="hero">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div class="inner">
+    <div class="kicker">Infrastructure for companies that distribute data</div>
+    <h1 class="mega" style="margin-top:22px">Your data<br>is a product<span class="mint">.</span></h1>
+    <p class="sub">Package it, govern it and deliver it like one.</p>
+    <div class="actions">
+      <a class="btn btn-mint" href="#build">Book a demo</a>
+      <a class="btn btn-link" href="#asks">See the problem it solves</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</header>
+
+<!-- 2 -->
+<section class="scene" id="asks">
+  <div class="stage">
+    <div class="asks-head"><div class="kicker">Your customers want your data</div></div>
+    <div class="frame"><div class="kb"><img src="img/trading-floor.jpg" alt="A trading floor full of screens" loading="eager"></div><div class="tint"></div></div>
+    <div class="bubble b1"><small>customer_a</small>Only EUR futures, Jan 2020 to Dec 2024. Into our Snowflake, please.</div>
+    <div class="bubble b2"><small>customer_b</small>We need a daily feed to S3.</div>
+    <div class="bubble b3"><small>bank_c</small>Our bank can't use Snowflake. Can we get an API?</div>
+    <div class="bubble b4"><small>prospect_d</small>Can we trial it for 30 days? Just three fields.</div>
+    <div class="asks-punch"><p class="big">Every sale becomes<br>an engineering project<span class="mint">.</span></p></div>
+  </div>
+</section>
+
+<!-- 3 -->
+<section class="scene" id="combo">
+  <div class="stage">
+    <div>
+      <div class="kicker" style="margin-bottom:26px">Multiply it by every customer</div>
+      <p class="formula" id="formula"><span>customer</span><i>×</i><span>dataset</span><i>×</i><span>permissions</span><i>×</i><span>pricing</span><i>×</i><span>licensing</span><i>×</i><span>delivery</span><i>×</i><span>expiry</span></p>
+      <div class="who" id="who">
+        <p class="big">Who has access<br>to <span class="mint">what?</span></p>
+        <div class="tools"><span>Salesforce?</span><span>Jira?</span><span>spreadsheets?</span><span>scripts?</span><span>Snowflake?</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 -->
+<section class="scene" id="what">
+  <div class="stage">
+    <div class="what-wrap">
+      <div class="kicker">Revelate is</div>
+      <div class="lines">
+        <p class="big">A storefront for your data.</p>
+        <p class="big">Rules for who gets what.</p>
+        <p class="big">Delivery to wherever<br>they <span class="mint">work.</span></p>
+      </div>
+      <p class="sub what-foot">Think of it as a store, access control and delivery in one, except the product is data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section class="scene" id="pipe">
+  <div class="stage">
+    <div class="reel-head">
+      <div class="kicker">How it works</div>
+      <p class="title" style="margin-top:10px;max-width:760px">From one giant dataset to a thousand products.</p>
+    </div>
+    <div class="reel" id="reel">
+      <div class="st"><div class="n">01 / manufacturing</div><p class="big">Catalog.</p><p class="sub">Everything you offer, in one place people can browse.</p><span class="eg">trade_prices · order_book · analytics</span></div>
+      <div class="st"><div class="n">02 / packaging</div><p class="big">Productize.</p><p class="sub">Slice one messy dataset into products people actually want.</p><span class="eg">EUR futures · 2020-2024 · 3 fields</span></div>
+      <div class="st"><div class="n">03 / fulfillment</div><p class="big">Entitle.</p><p class="sub">Customer A gets this. Customer B gets that. C expires next month.</p><span class="eg">trial: 30 days · rows: EU only</span></div>
+      <div class="st"><div class="n">04 / distribution</div><p class="big">Deliver.</p><p class="sub">Straight into the platform each customer already uses.</p><span class="eg">snowflake · s3 · api · sftp</span></div>
+      <div class="st last"><div class="n">05 / commercialization</div><p class="big">Sell.</p><p class="sub">Pricing, licences, trials and checkout, without a ticket in sight.</p><span class="eg">subscription · annual licence</span></div>
+    </div>
+    <div class="reel-bar"><span id="reelBar"></span></div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section class="scene" id="map">
+  <div class="stage" id="mapStage">
+    <svg class="map-svg" id="mapSvg" aria-hidden="true"></svg>
+    <div class="map-head"><div class="kicker">Delivery</div><p class="title" style="margin-top:10px">One product. Every destination.</p></div>
+    <div class="hub">Your data<br>product</div>
+    <div id="dests"></div>
+    <div class="map-copy"><p class="sub">No migration. Revelate sits beside the cloud you already run.</p></div>
+  </div>
+</section>
+
+<!-- 7 -->
+<section class="scene" id="minutes">
+  <div class="stage" id="minStage">
+    <div class="iris"><div class="kb"><img src="img/server-racks.jpg" alt="Rows of servers with blue status lights" loading="lazy"></div></div>
+    <div class="ring"></div>
+    <div class="min-copy">
+      <p class="mega">Minutes<span class="mint">.</span></p>
+      <p class="sub">Not weeks. No tickets. No one-off requests.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 8 -->
+<section id="build">
+  <div class="build">
+    <div>
+      <div class="kicker">Try it</div>
+      <p class="title">Build a data product in four taps.</p>
+      <div class="group"><label>Dataset</label><div class="chips" data-key="dataset"><button class="chip on">EUR futures</button><button class="chip">Commodities</button><button class="chip">Order book</button></div></div>
+      <div class="group"><label>Fields</label><div class="chips multi" data-key="fields"><button class="chip on">price</button><button class="chip on">volume</button><button class="chip">timestamp</button><button class="chip">open_interest</button></div></div>
+      <div class="group"><label>Access</label><div class="chips" data-key="access"><button class="chip on">30-day trial</button><button class="chip">Annual licence</button></div></div>
+      <div class="group"><label>Deliver to</label><div class="chips" data-key="dest"><button class="chip on">Snowflake</button><button class="chip">Databricks</button><button class="chip">AWS S3</button><button class="chip">API</button></div></div>
+    </div>
+    <div class="card-wrap">
+      <div class="card" id="card">
+        <div class="tag">data product · draft</div>
+        <h3 id="cTitle">EUR futures</h3>
+        <div class="rows">
+          <div><span>Fields</span><b id="cFields">price, volume</b></div>
+          <div><span>Access</span><b id="cAccess">30-day trial</b></div>
+          <div><span>Expires</span><b id="cExp">in 30 days</b></div>
+          <div><span>Delivered to</span><b id="cDest">Snowflake</b></div>
+        </div>
+        <div class="grant">
+          <button class="btn btn-mint" id="grant">Grant access</button>
+          <div class="spinner" id="spin"></div>
+          <span class="status" id="status">Not shared yet</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9 -->
+<section class="close">
+  <div class="kb" aria-hidden="true"><img src="img/network-cables.jpg" alt="" loading="lazy"></div>
+  <div>
+    <div class="kicker">The outcome</div>
+    <p class="big" style="margin-top:18px">Grow the data business.<br>Not the headcount<span class="mint">.</span></p>
+    <p class="sub">Delivery and access run with little to no help from engineering or sales.</p>
+    <a class="btn btn-mint" href="#build">Book a demo</a>
+  </div>
+</section>
+
+<footer>
+  <span>Revelate · infrastructure for companies that distribute data</span>
+  <span>Design concept · Onyx black #01010D · Electric indigo #6331FB · Tropical mint #88F9C0 · interactions illustrative</span>
+  <span>Photos via Wikimedia Commons: servers and cables, Victorgrigas (CC BY-SA 3.0) · trading floor, Ank Kumar (CC BY-SA 4.0)</span>
+</footer>
+
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const progress = el => { const r = el.getBoundingClientRect(); return clamp(-r.top / (r.height - innerHeight), 0, 1); };
+
+  /* ---------- 1. data field: points drift, link up, the odd mint packet travels ---------- */
+  const cv = document.getElementById('field'), cx = cv.getContext('2d');
+  let pts = [], W = 0, H = 0, dpr = Math.min(2, devicePixelRatio || 1), heroOn = true;
+  function size() {
+    W = cv.clientWidth; H = cv.clientHeight; cv.width = W * dpr; cv.height = H * dpr; cx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const n = Math.round(Math.min(110, W * H / 14000));
+    pts = Array.from({ length: n }, () => ({ x: Math.random() * W, y: Math.random() * H, vx: (Math.random() - .5) * .35, vy: (Math.random() - .5) * .35, m: Math.random() < .06 }));
+  }
+  function draw() {
+    cx.clearRect(0, 0, W, H);
+    for (const p of pts) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }
+    for (let i = 0; i < pts.length; i++) for (let j = i + 1; j < pts.length; j++) {
+      const a = pts[i], b = pts[j], d = Math.hypot(a.x - b.x, a.y - b.y);
+      if (d < 130) { cx.strokeStyle = `rgba(139,107,255,${(1 - d / 130) * .35})`; cx.lineWidth = 1; cx.beginPath(); cx.moveTo(a.x, a.y); cx.lineTo(b.x, b.y); cx.stroke(); }
+    }
+    for (const p of pts) { cx.fillStyle = p.m ? '#88F9C0' : 'rgba(200,190,255,.75)'; cx.beginPath(); cx.arc(p.x, p.y, p.m ? 2.6 : 1.6, 0, 6.283); cx.fill(); }
+    if (heroOn && !reduce) requestAnimationFrame(draw);
+  }
+  size(); draw();
+  new IntersectionObserver(([e]) => { const was = heroOn; heroOn = e.isIntersecting; if (heroOn && !was && !reduce) draw(); }).observe(cv);
+  addEventListener('resize', () => { size(); if (reduce) draw(); });
+
+  /* ---------- delivery map geometry ---------- */
+  const mapStage = document.getElementById('mapStage'), svg = document.getElementById('mapSvg'), dests = document.getElementById('dests');
+  const names = ['Snowflake', 'Databricks', 'AWS S3', 'Azure', 'API', 'SFTP'];
+  function buildMap() {
+    const w = mapStage.clientWidth, h = mapStage.clientHeight, cxm = w / 2, cym = h / 2, rx = Math.min(w * .36, 520), ry = Math.min(h * .30, 260);
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`); svg.innerHTML = ''; dests.innerHTML = '';
+    names.forEach((n, i) => {
+      const ang = (-90 + i * 60 + 30) * Math.PI / 180, x = cxm + rx * Math.cos(ang), y = cym + ry * Math.sin(ang);
+      const mx = (cxm + x) / 2 + (y - cym) * .25, my = (cym + y) / 2 - (x - cxm) * .12;
+      const d = `M${cxm},${cym} Q${mx},${my} ${x},${y}`;
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path'); path.setAttribute('d', d); path.setAttribute('class', 'route');
+      svg.appendChild(path); const len = path.getTotalLength(); path.style.setProperty('--len', len);
+      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle'); dot.setAttribute('r', 4); dot.setAttribute('class', 'packet');
+      const anim = document.createElementNS('http://www.w3.org/2000/svg', 'animateMotion');
+      anim.setAttribute('dur', (2.2 + i * .25) + 's'); anim.setAttribute('repeatCount', 'indefinite'); anim.setAttribute('path', d);
+      if (!reduce) dot.appendChild(anim); else { const p = path.getPointAtLength(len); dot.setAttribute('cx', p.x); dot.setAttribute('cy', p.y); }
+      svg.appendChild(dot);
+      const el = document.createElement('div'); el.className = 'dest'; el.textContent = n; el.style.left = x + 'px'; el.style.top = y + 'px'; dests.appendChild(el);
+    });
+  }
+  buildMap(); addEventListener('resize', buildMap);
+
+  /* ---------- scroll scenes ---------- */
+  const nav = document.getElementById('nav'), what = document.getElementById('what');
+  const asks = document.getElementById('asks'), asksStage = asks.querySelector('.stage'), bubbles = [...asks.querySelectorAll('.bubble')], punch = asks.querySelector('.asks-punch');
+  const combo = document.getElementById('combo'), fspans = [...document.querySelectorAll('#formula span')], who = document.getElementById('who');
+  const lines = [...what.querySelectorAll('.lines .big')];
+  const pipe = document.getElementById('pipe'), reel = document.getElementById('reel'), reelBar = document.getElementById('reelBar');
+  const map = document.getElementById('map');
+  const minutes = document.getElementById('minutes'), minStage = document.getElementById('minStage');
+
+  function frame() {
+    const r = what.getBoundingClientRect(); nav.classList.toggle('on-indigo', r.top <= 26 && r.bottom >= 26);
+    if (reduce) { mapStage.style.setProperty('--draw', 1); return; }
+
+    const pa = progress(asks), g = ease(clamp(pa / .35, 0, 1));
+    asksStage.style.setProperty('--fw', lerp(56, 100, g) + 'vw'); asksStage.style.setProperty('--fh', lerp(54, 100, g) + 'vh');
+    asksStage.style.setProperty('--fr', lerp(28, 0, g) + 'px'); asksStage.style.setProperty('--tint', String(lerp(.4, 1, g)));
+    asksStage.style.setProperty('--head', String(1 - clamp(pa / .2, 0, 1)));
+    bubbles.forEach((b, i) => b.classList.toggle('on', pa > .32 + i * .1 && pa < .9));
+    punch.classList.toggle('on', pa > .78);
+    bubbles.forEach(b => { if (pa > .78) b.style.opacity = '.18'; else b.style.opacity = ''; });
+
+    const pc = progress(combo), shown = Math.floor(clamp(pc / .6, 0, 1) * fspans.length + .001);
+    fspans.forEach((s, i) => s.classList.toggle('on', i < shown));
+    who.classList.toggle('on', pc > .66);
+
+    const pw = progress(what), step = Math.min(2, Math.floor(pw * 3.2));
+    lines.forEach((l, i) => { l.classList.toggle('on', i === step); l.classList.toggle('past', i < step); });
+
+    const pp = progress(pipe), travel = reel.scrollWidth - innerWidth;
+    reel.style.transform = `translate3d(${-travel * pp}px,0,0)`; reelBar.style.width = (pp * 100) + '%';
+
+    const pm = progress(map);
+    mapStage.style.setProperty('--draw', String(ease(clamp(pm / .5, 0, 1))));
+    mapStage.style.setProperty('--mcopy', String(clamp((pm - .5) / .2, 0, 1)));
+
+    const pn = progress(minutes), gn = ease(clamp(pn / .6, 0, 1));
+    minStage.style.setProperty('--iris', lerp(5, 80, gn) + '%');
+    minStage.style.setProperty('--ring', String(1 - clamp(pn / .3, 0, 1)));
+    minStage.style.setProperty('--icopy', String(clamp((pn - .5) / .25, 0, 1)));
+  }
+  let ticking = false;
+  addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { frame(); ticking = false; }); } }, { passive: true });
+  addEventListener('resize', frame); frame();
+
+  /* ---------- 8. build a data product: chips, live card with a spring pop and tilt ---------- */
+  const card = document.getElementById('card'), state = { dataset: 'EUR futures', fields: ['price', 'volume'], access: '30-day trial', dest: 'Snowflake' };
+  let s = 1, sv = 0, sraf;
+  function pop() {   // critically-damped-ish spring on scale: a little life, no wobble
+    if (reduce) return; s = .965; sv = 0; cancelAnimationFrame(sraf);
+    const k = Math.pow(2 * Math.PI / .32, 2), c = 4 * Math.PI * .75 / .32; let last = performance.now();
+    const tick = now => { const dt = Math.min(.032, (now - last) / 1000); last = now; sv += (-k * (s - 1) - c * sv) * dt; s += sv * dt; card.style.setProperty('--s', s.toFixed(4)); if (Math.abs(s - 1) > .0005 || Math.abs(sv) > .005) sraf = requestAnimationFrame(tick); else card.style.setProperty('--s', 1); };
+    sraf = requestAnimationFrame(tick);
+  }
+  function renderCard() {
+    document.getElementById('cTitle').textContent = state.dataset;
+    document.getElementById('cFields').textContent = state.fields.length ? state.fields.join(', ') : 'none yet';
+    document.getElementById('cAccess').textContent = state.access;
+    document.getElementById('cExp').textContent = state.access === '30-day trial' ? 'in 30 days' : 'in 12 months';
+    document.getElementById('cDest').textContent = state.dest;
+    const st = document.getElementById('status'); st.textContent = 'Not shared yet'; st.classList.remove('ok');
+    pop();
+  }
+  document.querySelectorAll('.chips').forEach(group => {
+    const key = group.dataset.key, multi = group.classList.contains('multi');
+    group.querySelectorAll('.chip').forEach(chip => chip.addEventListener('pointerdown', () => {
+      if (multi) { chip.classList.toggle('on'); state[key] = [...group.querySelectorAll('.chip.on')].map(c => c.textContent); }
+      else { group.querySelectorAll('.chip').forEach(c => c.classList.toggle('on', c === chip)); state[key] = chip.textContent; }
+      renderCard();
+    }));
+  });
+  document.getElementById('grant').addEventListener('click', () => {
+    const sp = document.getElementById('spin'), st = document.getElementById('status');
+    sp.classList.add('on'); st.textContent = 'Provisioning…'; st.classList.remove('ok');
+    setTimeout(() => { sp.classList.remove('on'); st.textContent = (state.dest === 'API' ? 'Access live via ' : 'Access live in ') + state.dest; st.classList.add('ok'); pop(); }, reduce ? 0 : 1400);
+  });
+  const wrap = card.parentElement;
+  if (!reduce) {
+    wrap.addEventListener('pointermove', e => { const r = card.getBoundingClientRect(); const x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5; card.style.setProperty('--ry', (x * 8).toFixed(2) + 'deg'); card.style.setProperty('--rx', (-y * 8).toFixed(2) + 'deg'); });
+    wrap.addEventListener('pointerleave', () => { card.style.setProperty('--ry', '0deg'); card.style.setProperty('--rx', '0deg'); });
+  }
+})();
+</script>
+</body>
+</html>
